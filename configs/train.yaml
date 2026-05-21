@@ -1,0 +1,28 @@
+# File: configs/train.yaml
+
+dataset:
+  train_csv: "/kaggle/input/viton/clean_vto_dataset_train.csv"
+  val_csv: "/kaggle/input/viton/clean_vto_dataset_test.csv"
+  train_root: "/kaggle/input/viton/train"
+  val_root: "/kaggle/input/viton/test"
+  caption_train_dir: "/kaggle/input/viton/cloth-captions/train"
+  caption_val_dir: "/kaggle/input/viton/cloth-captions/test"
+  target_size: [768, 512]
+  trigger_word: "hyeiu_cloth"
+
+model:
+  model_id: "runwayml/stable-diffusion-inpainting"
+  ip_adapter_id: "h94/IP-Adapter"
+  lora_rank: 64
+  lora_alpha: 64
+  lora_dropout: 0.1
+  num_image_tokens: 4
+
+training:
+  seed: 42
+  batch_size: 2
+  num_epochs: 8
+  learning_rate: 0.0001
+  grad_accum: 4
+  mask_loss_weight: 1.0
+  output_dir: "./checkpoints"
