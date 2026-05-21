@@ -4,7 +4,7 @@ from torchmetrics.image.lpip import LearnedPerceptualImagePatchSimilarity
 
 class VTONMetrics: 
     def __init__(self, device=None):
-        if device if None: 
+        if device is None: 
             self.device = 'cuda' if torch.cuda.is_available() else "cpu"
         else: 
             self.device = device
@@ -29,4 +29,3 @@ class VTONMetrics:
             'PSNR': psnr_val.item(),
             'LPIPS': lpips_val.item()
         }      
-        
