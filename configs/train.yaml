@@ -13,9 +13,9 @@ dataset:
 model:
   model_id: "runwayml/stable-diffusion-inpainting"
   ip_adapter_id: "h94/IP-Adapter"
-  lora_rank: 64
-  lora_alpha: 64
-  lora_dropout: 0.1
+  lora_rank: 8
+  lora_alpha: 8
+  lora_dropout: 0.05
   num_image_tokens: 4
 
 training:

@@ -24,7 +24,7 @@ scheduler = DDIMScheduler.from_pretrained(cfg.model.model_id, subfolder="schedul
 
 CKPT_DIR = os.path.join(cfg.training.output_dir, "ckpt_epoch_03")
 if os.path.exists(CKPT_DIR):
-    unet.load_attn_projs(os.path.join(CKPT_DIR, "unet_lora"))
+    unet.load_adapter(os.path.join(CKPT_DIR, "unet_lora"), adapter_name="default")
     image_proj.load_state_dict(torch.load(os.path.join(CKPT_DIR, "image_proj.pt"), map_location=device))
     print("Đã load Model Weights thành công!")
 else:
