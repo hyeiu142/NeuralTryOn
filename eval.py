@@ -17,7 +17,7 @@ def main():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     dtype = torch.float16 if device == 'cuda' else torch.float32
 
-    CKPT_DIR = os.path.join(cfg.training.output_dir, 'epoch_8')
+    CKPT_DIR = os.path.join(cfg.training.output_dir, "ckpt_epoch_03")
 
     print('Loading model and checkpoint')
     vae, text_encoder, unet, _, image_encoder, image_proj = build_models(cfg)

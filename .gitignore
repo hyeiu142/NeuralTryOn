@@ -14,7 +14,7 @@ checkpoints/
 *.safetensors
 *.ckpt
 
-nhap/
+draft/
 
 .DS_Store
 Thumbs.db
