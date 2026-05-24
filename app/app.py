@@ -33,19 +33,77 @@ else:
 unet.eval()
 image_proj.eval()
 
+# Khởi tạo mô hình tự động nhận diện áo (Auto-Segmentation)
+print("Đang khởi tạo Auto-Segmentation (Bóc tách áo tự động)...")
+from transformers import pipeline
+segmenter = pipeline("image-segmentation", model="mattmdjaga/segformer_b2_clothes", device=device)
+
 # 2. Hàm Xử lý ảnh (Inference)
-def try_on_clothes(agnostic_img, mask_img, cloth_img):
-    if agnostic_img is None or mask_img is None or cloth_img is None:
+def try_on_clothes(person_img, cloth_img):
+    if person_img is None or cloth_img is None:
         return None
     
-    # Preprocess giống y hệt dataset.py
+    import numpy as np
+    from PIL import Image
+    import cv2
+
+    bg_img = person_img.convert("RGB")
+    
+    # 1. Chạy AI nhận diện áo cũ
+    seg_outputs = segmenter(bg_img)
+    mask_np = np.zeros((bg_img.size[1], bg_img.size[0]), dtype=np.uint8)
+    
+    # Lọc ra vùng áo (Upper-clothes hoặc Dress)
+    for out in seg_outputs:
+        if out["label"] in ["Upper-clothes", "Dress"]:
+            layer_np = np.array(out["mask"].convert("L"))
+            mask_np = np.maximum(mask_np, layer_np)
+            
+    # 2. Làm phồng mask một xíu (dilate) để che kín hẳn viền áo cũ
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (11, 11))
+    mask_np = cv2.dilate(mask_np, kernel, iterations=1)
+    
+    # Làm mờ viền mask cho tự nhiên
+    mask_np = cv2.GaussianBlur(mask_np, (7, 7), 0)
+    mask_img = Image.fromarray(mask_np, mode="L")
+
+    # 3. Tạo ảnh agnostic bằng cách bôi xám vùng áo cũ
+    bg_np = np.array(bg_img)
+    mask_bool = mask_np > 128
+    agnostic_np = bg_np.copy()
+    agnostic_np[mask_bool] = 128  # 128 = màu xám
+    agnostic_img = Image.fromarray(agnostic_np)
+
+    # Helper: Crop center để ảnh không bị méo (giống notebook)
+    def sync_center_crop_and_resize(img, is_mask=False):
+        target_h, target_w = cfg.dataset.target_size
+        target_ratio = target_w / target_h
+        w, h = img.size
+        current_ratio = w / h
+
+        if current_ratio > target_ratio:
+            new_w = int(h * target_ratio)
+            left = (w - new_w) // 2
+            img = img.crop((left, 0, left + new_w, h))
+        else:
+            new_h = int(w / target_ratio)
+            top = (h - new_h) // 2
+            img = img.crop((0, top, w, top + new_h))
+
+        interp = Image.NEAREST if is_mask else Image.BILINEAR
+        return img.resize((target_w, target_h), interp)
+
+    # Áp dụng crop cho toàn bộ ảnh để giữ đúng tỷ lệ body/áo
+    agnostic_img = sync_center_crop_and_resize(agnostic_img, is_mask=False)
+    mask_img = sync_center_crop_and_resize(mask_img, is_mask=True)
+    cloth_img = sync_center_crop_and_resize(cloth_img, is_mask=False)
+
+    # Preprocess
     transform = transforms.Compose([
-        transforms.Resize(cfg.dataset.target_size),
         transforms.ToTensor(),
         transforms.Normalize([0.5], [0.5]),
     ])
     mask_transform = transforms.Compose([
-        transforms.Resize(cfg.dataset.target_size, interpolation=transforms.InterpolationMode.NEAREST),
         transforms.ToTensor(),
     ])
     clip_transform = transforms.Compose([
@@ -54,12 +112,12 @@ def try_on_clothes(agnostic_img, mask_img, cloth_img):
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
     ])
 
-    # Convert Pll to Tensor
-    agnostic = transform(agnostic_img.convert("RGB")).unsqueeze(0).to(device, dtype=dtype)
+    # Convert PIL to Tensor
+    agnostic = transform(agnostic_img).unsqueeze(0).to(device, dtype=dtype)
     cloth = transform(cloth_img.convert("RGB")).unsqueeze(0).to(device, dtype=dtype)
     clip_cloth = clip_transform(cloth_img.convert("RGB")).unsqueeze(0).to(device, dtype=dtype)
     
-    mask = mask_transform(mask_img.convert("L"))
+    mask = mask_transform(mask_img)
     mask = (mask > 0.5).float().unsqueeze(0).to(device, dtype=dtype)
 
     # Lấy text ngẫu nhiên hoặc rỗng (do dùng IP-Adapter là chính)
@@ -107,16 +165,18 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     with gr.Row():
         with gr.Column(scale=1):
             gr.Markdown("### Đầu vào (Inputs)")
-            in_agnostic = gr.Image(type="pil", label="1. Ảnh người (Đã che vùng áo)")
-            in_mask = gr.Image(type="pil", label="2. Ảnh Mask (Đen trắng)")
-            in_cloth = gr.Image(type="pil", label="3. Ảnh Áo mới")
+            gr.Markdown("Upload ảnh của bạn. AI sẽ tự động phân tích và tìm vùng áo cũ để thay thế.")
+            in_person = gr.Image(type="pil", label="1. Ảnh người mẫu (AI sẽ tự bóc tách áo)")
+            
+            gr.Markdown("Upload áo mới.")
+            in_cloth = gr.Image(type="pil", label="2. Ảnh Áo mới")
             btn_run = gr.Button("✨ Mặc Thử Áo ✨", variant="primary")
             
         with gr.Column(scale=1):
             gr.Markdown("### Kết quả (Output)")
             out_img = gr.Image(type="pil", label="Ảnh Kết Quả Tự Sinh")
 
-    btn_run.click(fn=try_on_clothes, inputs=[in_agnostic, in_mask, in_cloth], outputs=out_img)
+    btn_run.click(fn=try_on_clothes, inputs=[in_person, in_cloth], outputs=out_img)
 
 if __name__ == "__main__":
     demo.launch(share=True)
