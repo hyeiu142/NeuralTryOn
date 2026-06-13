@@ -1,0 +1,12 @@
+name: viton_hd_clean
+dataset: VITON-HD
+image_size: [512, 384]
+root: data/VITON-HD
+manifests:
+  train: data/DLP_CleanDataCSV/clean_vto_dataset_train.csv
+  paired_test: data/DLP_CleanDataCSV/clean_vto_dataset_test.csv
+  unpaired_holdout: data/DLP_CleanDataCSV/holdout_test.csv
+paired_rule: cloth_id == person_id
+seed: 42
+num_workers: 2
+

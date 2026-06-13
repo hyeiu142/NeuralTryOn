@@ -1,0 +1,24 @@
+name: stable_diffusion_inpainting_lora
+family: latent_diffusion
+base_model: runwayml/stable-diffusion-inpainting
+ip_adapter: h94/IP-Adapter
+architecture:
+  image_size: [512, 384]
+  unet_input_channels: 17
+  trigger_word: hyeiu_cloth
+  image_tokens: 8
+  spatial_tokens: 64
+  perceiver_depth: 2
+  perceiver_heads: 8
+lora:
+  rank: 16
+  alpha: 16
+  dropout: 0.05
+  targets:
+    - to_q
+    - to_k
+    - to_v
+    - to_out.0
+    - ff.net.0.proj
+    - ff.net.2
+

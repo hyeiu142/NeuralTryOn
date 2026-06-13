@@ -1,0 +1,38 @@
+name: model_1_default
+data_config: ../data/viton_hd.yaml
+model_config: ../models/model_1_lightweight_unet.yaml
+tracking_config: ../tracking/default.yaml
+training:
+  batch_size: 8
+  seed: 42
+  stages:
+    lightweight_unet:
+      epochs: 20
+      learning_rate: 0.0001
+      optimizer: Adam
+      early_stopping: {patience: 5, min_delta: 0.0001}
+    geometric_matching_module:
+      epochs: 15
+      learning_rate: 0.00001
+      optimizer: Adam
+      early_stopping: {patience: 5, min_delta: 0.0001}
+    try_on_module:
+      epochs: 30
+      learning_rate: 0.0001
+      optimizer: Adam
+      optimizer_betas: [0.5, 0.999]
+      scheduler: {name: ReduceLROnPlateau, factor: 0.5, patience: 2}
+      early_stopping: {patience: 5, min_delta: 0.0001}
+ablation:
+  - {name: Baseline_No_Dropout, learning_rate: 0.0001, dropout: 0.0}
+  - {name: With_Dropout_0.3, learning_rate: 0.0001, dropout: 0.3}
+  - {name: Low_LR_5e_5, learning_rate: 0.00005, dropout: 0.0}
+  - {name: High_LR_5e_4, learning_rate: 0.0005, dropout: 0.0}
+evaluation:
+  metrics: [ssim, psnr, lpips]
+  paired_manifest: clean_vto_dataset_test.csv
+  unpaired_manifest: holdout_test.csv
+notes:
+  source_notebook: notebooks/02_models/model_1_lightweight_unet.ipynb
+  notebook_tracking_backend: TensorBoard
+

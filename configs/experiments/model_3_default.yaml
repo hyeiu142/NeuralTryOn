@@ -1,0 +1,37 @@
+name: model_3_default
+data_config: ../data/viton_hd.yaml
+model_config: ../models/model_3_sd_lora.yaml
+tracking_config: ../tracking/default.yaml
+training:
+  batch_size: 1
+  gradient_accumulation_steps: 8
+  effective_batch_size: 8
+  configured_epochs: 20
+  completed_checkpoint_epoch: 12
+  seed: 42
+  optimizer: AdamW
+  learning_rate: 0.00002
+  conv_in_learning_rate: 0.0001
+  weight_decay: 0.0001
+  scheduler: {name: cosine_with_warmup, warmup_steps: 200}
+  mixed_precision: fp16
+  early_stopping: {patience: 5}
+  ema_decay: 0.999
+  min_snr_gamma: 5.0
+  loss_weights: {mask: 6.0, x0_latent: 0.4, x0_mask: 6.0}
+  condition_dropout: {text: 0.05, cloth: 0.05}
+inference:
+  steps: 45
+  guidance_scale: 2.0
+  guidance_sweep: [1.5, 2.0, 2.5, 3.0]
+  vae_scale: 0.18215
+evaluation:
+  metrics: [ssim, psnr, lpips]
+  paired_manifest: clean_vto_dataset_test.csv
+  unpaired_manifest: holdout_test.csv
+notes:
+  source_notebook: notebooks/02_models/model_3_sd_lora.ipynb
+  notebook_tracking_backend: Weights_and_Biases
+  wandb_project: VTO-Model4-SD-LoRA
+  wandb_run_name: v2-perceiver-13ch
+

@@ -1,39 +1,42 @@
 # Experiment Tracking
 
-This directory is the central index for model configurations and training logs.
-It complements the self-contained notebooks without changing their runtime
-behavior.
-
-## Central Files
-
-- `hyperparameter_summary.csv`: compact cross-model configuration table.
-- `../configs/`: detailed reference manifests copied from the model notebooks.
-- `../docs/experiments.md`: completed-run status, results, and observations.
-- `../results/convergence/`: report-ready training and validation curves.
-- `../results/metrics/`: report-ready evaluation summaries.
-
-## Log Collection
-
-Raw logs are intentionally excluded from Git because TensorBoard and W&B files
-can become large. After a run, place exported logs under:
+Each training execution is represented by one immutable run directory:
 
 ```text
-experiments/logs/
-├── model_1_lightweight_unet/
-├── model_2_pix2pix/
-└── model_3_sd_lora/
+experiments/runs/<timestamp>_<experiment_name>/
+├── config.yaml       Resolved configuration snapshot
+├── metadata.json     Run identity, status, Git commit, and environment
+├── metrics.jsonl     Append-only step and epoch metrics
+├── summary.json      Final metrics and conclusions
+├── checkpoints/      Model states
+├── logs/             TensorBoard or text logs
+└── artifacts/        Samples and run-specific figures
 ```
 
-Model 1 writes TensorBoard events using
-`runs/TOM_Experiment_{config_name}`. Model 2 currently records history in the
-notebook and checkpoints. Model 3 sends training metrics to W&B project
-`VTO-Model4-SD-LoRA`.
+`registry.csv` is the compact, Git-friendly index of all runs. Raw run
+directories are excluded from Git because they can contain large checkpoints
+and logs. Final report-ready outputs belong in `results/`.
 
-## Review Checklist
+## Commands
 
-1. Compare planned settings in `configs/` with the notebook run.
-2. Confirm the final checkpoint and completed epoch.
-3. Inspect training and validation curves in `results/convergence/`.
-4. Inspect quantitative summaries in `results/metrics/`.
-5. Record conclusions and run status in `docs/experiments.md`.
+Validate a configuration without starting training:
+
+```bash
+python scripts/manage_experiment.py validate configs/experiments/model_3_default.yaml
+```
+
+Create an empty tracked run:
+
+```bash
+python scripts/manage_experiment.py init configs/experiments/model_3_default.yaml
+```
+
+List registered runs:
+
+```bash
+python scripts/manage_experiment.py list
+```
+
+The current notebooks are intentionally unchanged. Future training scripts can
+use `src.config` and `src.tracking` directly.
 

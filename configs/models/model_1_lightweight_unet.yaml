@@ -1,0 +1,10 @@
+name: lightweight_unet_gmm_tom
+family: convolutional_virtual_try_on
+stages:
+  - lightweight_unet
+  - geometric_matching_module
+  - try_on_module
+architecture:
+  image_size: [512, 384]
+  tom_dropout: 0.0
+

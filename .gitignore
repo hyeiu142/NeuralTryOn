@@ -9,8 +9,8 @@ venv/
 .env/
 .env
 
-data/
-checkpoints/
+/data/
+/checkpoints/
 *.zip
 *.pt
 *.pth
@@ -25,8 +25,7 @@ Thumbs.db
 
 wandb/
 *.log
-experiments/logs/*
-!experiments/logs/README.md
+experiments/runs/
 
 .ipynb_checkpoints/
 outputs/

@@ -1,9 +1,9 @@
-model,stage,batch_size,effective_batch_size,epochs,learning_rate,optimizer,scheduler,early_stopping_patience,seed,tracking
-Model 1,Lightweight U-Net,8,8,20,0.0001,Adam,None,5,42,TensorBoard
-Model 1,GMM,8,8,15,0.00001,Adam,None,5,42,TensorBoard
-Model 1,TOM baseline,8,8,30,0.0001,Adam,ReduceLROnPlateau,5,42,TensorBoard
-Model 2,GMM,4,4,15,0.0001,Adam,ReduceLROnPlateau,3,42,Notebook and checkpoints
-Model 2,Shape Generation,4,4,15,0.00005,Adam,ReduceLROnPlateau,3,42,Notebook and checkpoints
-Model 2,Pix2Pix,4,4,30,0.0002,Adam,ReduceLROnPlateau,10,42,Notebook and checkpoints
-Model 3,SD Inpainting and LoRA,1,8,20,0.00002,AdamW,Cosine with warmup,5,42,Weights and Biases
+experiment,model,stage,batch_size,effective_batch_size,epochs,learning_rate,optimizer,scheduler,seed
+model_1_default,Model 1,Lightweight U-Net,8,8,20,0.0001,Adam,None,42
+model_1_default,Model 1,GMM,8,8,15,0.00001,Adam,None,42
+model_1_default,Model 1,TOM baseline,8,8,30,0.0001,Adam,ReduceLROnPlateau,42
+model_2_default,Model 2,GMM,4,4,15,0.0001,Adam,ReduceLROnPlateau,42
+model_2_default,Model 2,Shape Generation,4,4,15,0.00005,Adam,ReduceLROnPlateau,42
+model_2_default,Model 2,Pix2Pix,4,4,30,0.0002,Adam,ReduceLROnPlateau,42
+model_3_default,Model 3,SD Inpainting and LoRA,1,8,20,0.00002,AdamW,Cosine with warmup,42
 

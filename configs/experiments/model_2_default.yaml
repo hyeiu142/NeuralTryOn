@@ -1,0 +1,45 @@
+name: model_2_default
+data_config: ../data/viton_hd.yaml
+model_config: ../models/model_2_pix2pix.yaml
+tracking_config: ../tracking/default.yaml
+training:
+  batch_size: 4
+  seed: 42
+  stages:
+    geometric_matching_module:
+      epochs: 15
+      learning_rate: 0.0001
+      optimizer: Adam
+      scheduler: {name: ReduceLROnPlateau, factor: 0.5, patience: 3}
+      early_stopping: {patience: 3, min_delta: 0.001}
+      loss_weights: {l1: 1.0, vgg: 0.2, mask: 0.5}
+    shape_generation:
+      epochs: 15
+      learning_rate: 0.00005
+      optimizer: Adam
+      scheduler: {name: ReduceLROnPlateau, factor: 0.5, patience: 2}
+      early_stopping: {patience: 3, min_delta: 0.001}
+    pix2pix:
+      epochs: 30
+      generator_learning_rate: 0.0002
+      discriminator_learning_rate: 0.00001
+      optimizer: Adam
+      optimizer_betas: [0.5, 0.999]
+      scheduler: {name: ReduceLROnPlateau, factor: 0.5, patience: 4}
+      early_stopping: {patience: 10, min_delta: 0.001}
+      loss_weights:
+        l1: 0.5
+        vgg: 10.0
+        gan: 1.5
+        sobel: 5.0
+        skin: 5.0
+        full_region: 10.0
+        mask: 20.0
+evaluation:
+  metrics: [ssim, psnr, lpips]
+  paired_manifest: clean_vto_dataset_test.csv
+  unpaired_manifest: holdout_test.csv
+notes:
+  source_notebook: notebooks/02_models/model_2_pix2pix.ipynb
+  notebook_tracking_backend: notebook_history_and_checkpoints
+

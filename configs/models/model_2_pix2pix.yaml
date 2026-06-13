@@ -1,0 +1,12 @@
+name: gmm_shape_generation_pix2pix
+family: conditional_gan
+stages:
+  - geometric_matching_module
+  - shape_generation
+  - pix2pix
+architecture:
+  image_size: [512, 384]
+  shape_generation_input_channels: 26
+  generator_input_channels: 12
+  discriminator_input_channels: 15
+

@@ -1,0 +1,10 @@
+backend: local
+run_root: experiments/runs
+registry: experiments/registry.csv
+save_config_snapshot: true
+save_environment: true
+metric_format: jsonl
+external_backends:
+  tensorboard: false
+  wandb: false
+
