@@ -1,35 +1,7 @@
-# Model 3 Production Training
+# Model 3 Execution
 
-The Model 3 training implementation has been migrated from
-`notebooks/02_models/model_3_sd_lora.ipynb` into importable production modules.
-The notebook remains unchanged as the original experiment record.
-
-The adapter has passed local configuration, import, shape, and unit tests. Its
-status remains `production_adapter_gpu_smoke_pending` until the first Kaggle GPU
-smoke test completes successfully.
-
-## Migrated Components
-
-```text
-src/models/model_3_sd_lora/
-├── settings.py       Typed resolved configuration
-├── dataset.py        Identity-paired VITON-HD preprocessing
-├── modules.py        Perceiver, spatial projector, and 17-channel UNet expansion
-├── components.py     Stable Diffusion, CLIP, LoRA, and optimizer construction
-├── objective.py      Masked diffusion, x0, and Min-SNR objective
-├── checkpoints.py    Notebook-compatible checkpoint layout
-└── trainer.py        Accelerate training and validation lifecycle
-```
-
-The adapter preserves the notebook's important contracts:
-
-- `runwayml/stable-diffusion-inpainting`
-- LoRA rank and alpha `16`
-- Expanded `17`-channel UNet input
-- Eight global garment tokens and 64 spatial tokens
-- Mask-weighted noise and x0 reconstruction losses
-- Min-SNR weighting, gradient accumulation, EMA, and early stopping
-- `checkpoint_latest` and `checkpoint_best` artifact layout
+Model 3 can be trained, resumed, inferred, and evaluated through reusable
+scripts. The original notebook remains the completed experiment record.
 
 ## Kaggle Smoke Test
 
@@ -45,9 +17,6 @@ python scripts/train.py \
   --max-validation-samples 4 \
   --output-dir /kaggle/working/model_3_smoke_test
 ```
-
-This performs real forward and backward passes using only a few samples. It is
-the recommended first check before starting a full run.
 
 ## Full Training
 
@@ -71,8 +40,7 @@ python scripts/train.py \
 ```
 
 The resume directory must contain `checkpoint_latest` and `loss_history.json`.
-
-## Output Contract
+The output directory contains:
 
 ```text
 /kaggle/working/vto_v2_production/
@@ -83,9 +51,6 @@ The resume directory must contain `checkpoint_latest` and `loss_history.json`.
 ├── checkpoint_best/
 └── loss_history.json
 ```
-
-Large checkpoints should be published as a Kaggle Dataset rather than committed
-to Git.
 
 ## Inference Smoke Test
 
@@ -108,4 +73,5 @@ python scripts/evaluate.py \
   --output-dir /kaggle/working/model_3_paired_smoke
 ```
 
-Remove `--max-samples 3` only after the smoke test succeeds.
+Large checkpoints and generated galleries should be published as Kaggle
+Datasets instead of committed to Git.

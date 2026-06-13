@@ -3,9 +3,6 @@
 The project compares three Virtual Try-On approaches with different resource
 and modeling trade-offs.
 
-The production-oriented software layers and Kaggle execution model are
-documented in [production_architecture.md](production_architecture.md).
-
 ## Shared Inputs
 
 All models use conditions derived from VITON-HD:
@@ -37,9 +34,8 @@ Matching Module estimates Thin Plate Spline control points and warps the flat
 garment into the person's pose. The Try-On Module renders missing content and
 composites it with the warped garment.
 
-Training is split into independent modules. The notebook includes validation,
-checkpoint loading, early stopping, learning-rate scheduling, convergence
-plots, and a TOM ablation experiment.
+Training is split into independent modules and includes early stopping,
+learning-rate scheduling, checkpointing, and TOM ablation experiments.
 
 ## Model 2: GMM + Shape Generation + Pix2Pix
 
@@ -57,17 +53,8 @@ and garment-mask inputs. Stage 1 predicts the target clothing and body
 generation region. Stage 2 uses a U-Net-like generator to render missing
 content and blend the warped garment.
 
-Stage 2 training combines:
-
-```text
-L1 reconstruction loss
-VGG perceptual loss
-Sobel edge loss
-Skin-region rendering loss
-Full generation-region rendering loss
-Composition-mask loss
-LSGAN adversarial loss
-```
+Stage 2 combines reconstruction, perceptual, edge, region, mask, and LSGAN
+adversarial losses.
 
 The PatchGAN discriminator evaluates local image patches. Training includes
 mixed precision, gradient clipping, checkpoint resume, early stopping, and

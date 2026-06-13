@@ -216,9 +216,8 @@ preservation metrics.
 See [docs/evaluation_protocol.md](docs/evaluation_protocol.md) for the complete
 evaluation contract.
 
-The architecture and completed experiment summaries are documented in
-[docs/architecture.md](docs/architecture.md) and
-[docs/experiments.md](docs/experiments.md).
+The model architecture summary is documented in
+[docs/architecture.md](docs/architecture.md).
 
 ## Common 996-Sample Evaluation Results
 
@@ -301,10 +300,10 @@ VTO/
 │   └── error_analysis/
 ├── docs/
 │   ├── architecture.md
+│   ├── checkpoints.md
 │   ├── dataset.md
 │   ├── evaluation_protocol.md
-│   ├── experiments.md
-│   ├── checkpoints.md
+│   ├── model_3_production_training.md
 │   └── project_requirements.pdf
 ├── requirements.txt
 ├── pyproject.toml
@@ -485,9 +484,8 @@ Hierarchical configurations are recorded in [configs/](configs/). The
 run-oriented tracking structure, run registry, and cross-model hyperparameter
 summary are documented in [experiments/](experiments/).
 
-The production-oriented software architecture and remote GPU workflow are
-documented in [docs/production_architecture.md](docs/production_architecture.md)
-and [docs/kaggle_operations.md](docs/kaggle_operations.md).
+Reusable training, evaluation, inference, and tracking utilities are available
+under `src/` and `scripts/`.
 
 Configuration validation and unit tests run automatically through
 `.github/workflows/ci.yml`. Common local checks are available through

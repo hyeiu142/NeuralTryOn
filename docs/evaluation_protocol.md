@@ -1,10 +1,8 @@
 # Evaluation Protocol
 
-## Evaluation Goals
-
 The project uses two complementary evaluation modes.
 
-### Paired Reconstruction
+## Paired Reconstruction
 
 The target garment is the garment already worn by the person:
 
@@ -12,15 +10,10 @@ The target garment is the garment already worn by the person:
 cloth_id = person_id
 ```
 
-This mode has a pixel-aligned ground-truth person image and supports:
+This mode has pixel-aligned ground truth. SSIM and PSNR are higher-is-better;
+LPIPS is lower-is-better.
 
-```text
-SSIM   higher is better
-PSNR   higher is better
-LPIPS  lower is better
-```
-
-### Unpaired Holdout
+## Unpaired Holdout
 
 The person is combined with a different target garment. Because no
 pixel-aligned ground-truth result exists, holdout evaluation is primarily
@@ -33,23 +26,7 @@ Person Input | Target Cloth | Try-On Result
 Review criteria include garment identity, body and face preservation, boundary
 artifacts, texture loss, color bleeding, and pose consistency.
 
-## Common Evaluation Protocol
-
-| Model | Paired samples | Paired source | LPIPS backbone | Holdout |
-| --- | ---: | --- | --- | ---: |
-| Model 1: Lightweight U-Net + GMM + TOM | 996 | `clean_vto_dataset_test.csv` | VGG | 665 |
-| Model 2: GMM + Shape Generation + Pix2Pix | 996 | `clean_vto_dataset_test.csv` | VGG | 13 manual demos; full holdout pending |
-| Model 3: Stable Diffusion + LoRA | 996 | `clean_vto_dataset_test.csv` | AlexNet | 665 |
-
-The report uses this common 996-sample protocol for all models. Existing Model
-1 and Model 2 metrics must be confirmed by rerunning their evaluators with the
-common manifest. LPIPS backbone differences remain explicitly documented.
-
-Model 3 used this 996-sample manifest for validation during training, so its
-paired result is validation-seen. The unpaired holdout remains the dataset
-reserved for practical unseen-pair review.
-
-## Final Common Comparison Contract
+## Shared Protocol
 
 For the final comparison of Models 1, 2, and 3:
 
@@ -57,9 +34,8 @@ For the final comparison of Models 1, 2, and 3:
 2. Force `cloth_id = person_id`.
 3. Use the same image resolution and RGB range.
 4. Use the same SSIM and PSNR implementation.
-5. Use LPIPS-AlexNet for every model.
-6. Save one row per sample and report mean plus standard deviation.
-7. Use the same holdout person-cloth manifest for qualitative comparison.
+5. Save one row per sample and report mean plus standard deviation.
+6. Use the same holdout person-cloth manifest for qualitative comparison.
 
 Required per-sample columns:
 
