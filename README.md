@@ -216,6 +216,10 @@ preservation metrics.
 See [docs/evaluation_protocol.md](docs/evaluation_protocol.md) for the complete
 evaluation contract.
 
+The architecture and completed experiment summaries are documented in
+[docs/architecture.md](docs/architecture.md) and
+[docs/experiments.md](docs/experiments.md).
+
 ## Current Reported Results
 
 | Model | Paired Samples | SSIM | PSNR | LPIPS | LPIPS Backbone | Holdout Generated |
@@ -282,6 +286,7 @@ VTO/
 │   ├── architecture.md
 │   ├── dataset.md
 │   ├── evaluation_protocol.md
+│   ├── experiments.md
 │   ├── checkpoints.md
 │   └── project_requirements.pdf
 ├── requirements.txt

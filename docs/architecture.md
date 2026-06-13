@@ -1,35 +1,124 @@
-# Model Architecture Summary
+# Model Architecture and Training Summary
 
-## Model 1: Lightweight U-Net Pipeline
+The project compares three Virtual Try-On approaches with different resource
+and modeling trade-offs.
 
-The first pipeline predicts a clothing-region mask with a lightweight U-Net,
-warps the garment using a Geometric Matching Module, and synthesizes the final
-image using a Try-On Module.
+## Shared Inputs
 
-```text
-Person conditions → Lightweight U-Net mask → GMM garment warp → TOM result
-```
-
-## Model 2: Pix2Pix Pipeline
-
-The second pipeline combines geometric garment alignment, shape generation,
-and adversarial texture fusion.
+All models use conditions derived from VITON-HD:
 
 ```text
-Person conditions → GMM → Shape Generation → Pix2Pix Generator + PatchGAN
+Person image
+Target garment and garment mask
+Clothing-agnostic person image
+Human parsing map
+OpenPose keypoints or pose heatmaps
+DensePose representation
 ```
 
-## Model 3: Stable Diffusion + LoRA
+Images are processed at `384 x 512` resolution. RGB tensors are normalized to
+`[-1, 1]`, while masks remain in `[0, 1]`.
 
-The third pipeline adapts Stable Diffusion Inpainting with parameter-efficient
-LoRA weights. The UNet input is expanded to 17 channels:
+## Model 1: Lightweight U-Net + GMM + TOM
 
 ```text
-noisy latent (4) + mask (1) + agnostic latent (4)
-+ pose latent (4) + cloth latent (4) = 17 channels
+Person conditions
+    -> Lightweight U-Net clothing-region mask
+    -> GMM/TPS target-garment warping
+    -> TOM rendering and composition
+    -> final try-on image
 ```
 
-CLIP Vision garment features are converted into global and spatial cloth tokens
-through a Perceiver Resampler and Cloth Spatial Projector. Trainable components
-are LoRA weights, the expanded input convolution, Perceiver, and spatial
-projector; pretrained VAE, text encoder, and CLIP Vision remain frozen.
+The Lightweight U-Net predicts the garment replacement region. The Geometric
+Matching Module estimates Thin Plate Spline control points and warps the flat
+garment into the person's pose. The Try-On Module renders missing content and
+composites it with the warped garment.
+
+Training is split into independent modules. The notebook includes validation,
+checkpoint loading, early stopping, learning-rate scheduling, convergence
+plots, and a TOM ablation experiment.
+
+## Model 2: GMM + Shape Generation + Pix2Pix
+
+```text
+Person conditions
+    -> GMM/TPS target-garment warping
+    -> Stage 1 shape-generation network
+    -> Stage 2 Pix2Pix generator
+    -> PatchGAN discriminator during training
+    -> final try-on image
+```
+
+The GMM aligns the garment using agnostic, DensePose, pose-heatmap, garment,
+and garment-mask inputs. Stage 1 predicts the target clothing and body
+generation region. Stage 2 uses a U-Net-like generator to render missing
+content and blend the warped garment.
+
+Stage 2 training combines:
+
+```text
+L1 reconstruction loss
+VGG perceptual loss
+Sobel edge loss
+Skin-region rendering loss
+Full generation-region rendering loss
+Composition-mask loss
+LSGAN adversarial loss
+```
+
+The PatchGAN discriminator evaluates local image patches. Training includes
+mixed precision, gradient clipping, checkpoint resume, early stopping, and
+learning-rate scheduling.
+
+## Model 3: Stable Diffusion Inpainting + LoRA
+
+Model 3 adapts `runwayml/stable-diffusion-inpainting` using Parameter-Efficient
+Fine-Tuning.
+
+The UNet input convolution is expanded to 17 channels:
+
+```text
+Noisy latent       4
+Inpainting mask    1
+Agnostic latent    4
+Pose latent        4
+Garment latent     4
+                  --
+Total             17
+```
+
+Garment appearance is represented by a frozen CLIP Vision encoder. A Perceiver
+Resampler creates compact global garment tokens, while a Cloth Spatial
+Projector creates spatial garment features.
+
+Trainable components:
+
+```text
+UNet LoRA adapters
+Expanded UNet input convolution
+Perceiver Resampler
+Cloth Spatial Projector
+```
+
+Frozen components:
+
+```text
+VAE
+Text encoder
+CLIP Vision encoder
+Base Stable Diffusion weights
+```
+
+This model is the project's main transfer-learning and PEFT experiment.
+
+## Architecture Comparison
+
+| Property | Model 1 | Model 2 | Model 3 |
+| --- | --- | --- | --- |
+| Main approach | Lightweight CNN pipeline | Conditional GAN pipeline | Latent diffusion with LoRA |
+| Garment alignment | GMM/TPS | GMM/TPS | Garment latent and CLIP conditioning |
+| Main generator | TOM | Pix2Pix-style generator | Stable Diffusion UNet |
+| Adversarial training | No | PatchGAN/LSGAN | No |
+| Transfer learning | Limited | VGG perceptual features | Stable Diffusion, CLIP, LoRA |
+| Resource strategy | Small custom modules | Staged training | PEFT with frozen pretrained modules |
+| Expected strength | Speed and structure | Texture and sharpness | Perceptual realism and garment semantics |

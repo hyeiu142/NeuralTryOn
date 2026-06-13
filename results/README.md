@@ -12,3 +12,6 @@ error_analysis/  Representative failure cases
 
 Large full-resolution result galleries should be published as Kaggle Datasets
 and linked from `docs/checkpoints.md` instead of committed to Git.
+
+See `notebook_image_manifest.md` for the source notebook and cell of extracted
+figures.
