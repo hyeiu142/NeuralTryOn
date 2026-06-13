@@ -62,7 +62,8 @@ notebooks/03_evaluation/model_3_sd_lora_evaluation.ipynb
 ```
 
 See [docs/dataset.md](docs/dataset.md), [docs/architecture.md](docs/architecture.md),
-and [docs/checkpoints.md](docs/checkpoints.md) for details.
+[docs/checkpoints.md](docs/checkpoints.md), and
+[docs/evaluation_protocol.md](docs/evaluation_protocol.md) for details.
 
 ## Local Setup
 
