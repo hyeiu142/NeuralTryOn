@@ -15,3 +15,6 @@ and linked from `docs/checkpoints.md` instead of committed to Git.
 
 See `notebook_image_manifest.md` for the source notebook and cell of extracted
 figures.
+
+See `archive_image_manifest.md` for Model 3 report artifacts recovered from the
+local image archive.

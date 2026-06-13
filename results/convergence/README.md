@@ -19,6 +19,7 @@ model_2_stage2_convergence.png
 model_3_training_validation_loss.png
 ```
 
-Model 3 does not currently contain a completed convergence chart in its public
-notebook output. Large intermediate visualizations should remain in external
-Kaggle Datasets.
+Model 3 epoch-12 convergence charts recovered from the local archive are also
+available here, including train/validation loss and generalization-gap
+analysis. Large intermediate visualizations should remain in external Kaggle
+Datasets.

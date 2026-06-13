@@ -17,3 +17,7 @@ Texture smoothing or blur
 
 For the final report, use the same person-cloth pairs across all three models
 and explain the likely cause of each failure.
+
+`model_3_sd_lora/worst_paired_samples.jpg` is a completed Model 3 error-analysis
+gallery. It clearly shows failures involving incorrect logos, graphics,
+patterns, and garment identity.
