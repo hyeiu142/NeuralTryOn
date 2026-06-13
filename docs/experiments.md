@@ -47,6 +47,11 @@ LPIPS value, indicating strong perceptual similarity under its evaluation
 protocol. It also provides the most complete unpaired proxy evaluation,
 including CLIP garment similarity and outside-mask preservation.
 
+The Model 3 training notebook uses `clean_vto_dataset_test.csv` for validation
+and checkpoint selection. Its final paired metrics are therefore
+validation-seen and should not be described as evaluation on a completely
+untouched test set.
+
 ## Final Comparison Requirement
 
 A strict final comparison requires:

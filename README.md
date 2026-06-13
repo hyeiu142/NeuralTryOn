@@ -364,7 +364,7 @@ Dataset publishing.
 
 ## Common Result Comparison
 
-The current Model 1 and Model 3 reported results can be summarized with:
+The currently reported results for all three models can be summarized with:
 
 ```bash
 python evaluation/common_comparison/01_compare_reported_metrics.py
@@ -377,8 +377,9 @@ results/metrics/reported_metrics_table.md
 results/metrics/reported_metrics_comparison.png
 ```
 
-The comparison script is ready to include Model 2 after its final evaluation
-row is added to `results/metrics/reported_metrics.csv`.
+The generated overview keeps the evaluation protocol and LPIPS-backbone
+limitations visible so that the reported metrics are not mistaken for a strict
+ranking.
 
 ## Kaggle Setup
 
@@ -453,7 +454,11 @@ Experiments use fixed random seeds for Python, NumPy, and PyTorch. Final
 comparisons should use the same CSV manifest, metric implementations, LPIPS
 backbone, and fixed qualitative pairs across all models.
 
+Model 3 used `clean_vto_dataset_test.csv` as its validation loader during
+training. Its final paired metrics therefore measure performance on a
+validation-seen set rather than a completely untouched test set. Model 1 and
+Model 2 created validation subsets from the training manifest.
+
 Large checkpoints and full-resolution result galleries are stored externally as
 Kaggle Datasets instead of being committed to Git. See
 [docs/checkpoints.md](docs/checkpoints.md) for the available artifacts.
-

@@ -45,6 +45,10 @@ The report uses this common 996-sample protocol for all models. Existing Model
 1 and Model 2 metrics must be confirmed by rerunning their evaluators with the
 common manifest. LPIPS backbone differences remain explicitly documented.
 
+Model 3 used this 996-sample manifest for validation during training, so its
+paired result is validation-seen. The unpaired holdout remains the dataset
+reserved for practical unseen-pair review.
+
 ## Final Common Comparison Contract
 
 For the final comparison of Models 1, 2, and 3:
