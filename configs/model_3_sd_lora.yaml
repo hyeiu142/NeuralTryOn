@@ -1,0 +1,67 @@
+model:
+  name: stable_diffusion_inpainting_lora
+  base_model: runwayml/stable-diffusion-inpainting
+  ip_adapter: h94/IP-Adapter
+  image_size: [512, 384]
+  trigger_word: hyeiu_cloth
+  unet_input_channels: 17
+
+data:
+  batch_size: 1
+  gradient_accumulation_steps: 8
+  effective_batch_size: 8
+  num_workers: 2
+  seed: 42
+  max_train_samples: null
+
+training:
+  configured_epochs: 20
+  completed_checkpoint_epoch: 12
+  learning_rate: 0.00002
+  conv_in_learning_rate: 0.0001
+  weight_decay: 0.0001
+  optimizer: AdamW
+  scheduler: cosine_with_warmup
+  warmup_steps: 200
+  mixed_precision: fp16
+  early_stopping_patience: 5
+  ema_decay: 0.999
+  min_snr_gamma: 5.0
+  loss_weights:
+    mask: 6.0
+    x0_latent: 0.4
+    x0_mask: 6.0
+  condition_dropout:
+    text: 0.05
+    cloth: 0.05
+
+lora:
+  rank: 16
+  alpha: 16
+  dropout: 0.05
+  targets:
+    - to_q
+    - to_k
+    - to_v
+    - to_out.0
+    - ff.net.0.proj
+    - ff.net.2
+
+conditioning:
+  image_tokens: 8
+  spatial_tokens: 64
+  perceiver_depth: 2
+  perceiver_heads: 8
+
+inference:
+  steps: 45
+  guidance_scale: 2.0
+  guidance_sweep: [1.5, 2.0, 2.5, 3.0]
+  holdout_manifest: holdout_test.csv
+  vae_scale: 0.18215
+
+tracking:
+  backend: Weights_and_Biases
+  project: VTO-Model4-SD-LoRA
+  run_name: v2-perceiver-13ch
+

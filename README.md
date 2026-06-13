@@ -268,6 +268,13 @@ VTO/
 │   │   ├── unpaired_holdout/
 │   │   └── review_publish/
 │   └── common_comparison/
+├── configs/
+│   ├── model_1_lightweight_unet.yaml
+│   ├── model_2_pix2pix.yaml
+│   └── model_3_sd_lora.yaml
+├── experiments/
+│   ├── hyperparameter_summary.csv
+│   └── logs/
 ├── src/
 │   ├── metrics.py
 │   ├── reproducibility.py
@@ -453,6 +460,10 @@ result inspection.
 Experiments use fixed random seeds and documented dataset manifests. Large
 checkpoints and full-resolution galleries are stored as external Kaggle
 Datasets. See [docs/checkpoints.md](docs/checkpoints.md) for available artifacts.
+
+Detailed hyperparameters are recorded in [configs/](configs/), while the
+cross-model configuration table and raw-log collection guide are available in
+[experiments/](experiments/).
 
 Evaluation protocols and known limitations are documented in
 [docs/evaluation_protocol.md](docs/evaluation_protocol.md).

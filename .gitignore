@@ -25,6 +25,8 @@ Thumbs.db
 
 wandb/
 *.log
+experiments/logs/*
+!experiments/logs/README.md
 
 .ipynb_checkpoints/
 outputs/
