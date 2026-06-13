@@ -450,15 +450,9 @@ result inspection.
 
 ## Reproducibility and Artifacts
 
-Experiments use fixed random seeds for Python, NumPy, and PyTorch. Final
-comparisons should use the same CSV manifest, metric implementations, LPIPS
-backbone, and fixed qualitative pairs across all models.
+Experiments use fixed random seeds and documented dataset manifests. Large
+checkpoints and full-resolution galleries are stored as external Kaggle
+Datasets. See [docs/checkpoints.md](docs/checkpoints.md) for available artifacts.
 
-Model 3 used `clean_vto_dataset_test.csv` as its validation loader during
-training. Its final paired metrics therefore measure performance on a
-validation-seen set rather than a completely untouched test set. Model 1 and
-Model 2 created validation subsets from the training manifest.
-
-Large checkpoints and full-resolution result galleries are stored externally as
-Kaggle Datasets instead of being committed to Git. See
-[docs/checkpoints.md](docs/checkpoints.md) for the available artifacts.
+Evaluation protocols and known limitations are documented in
+[docs/evaluation_protocol.md](docs/evaluation_protocol.md).
