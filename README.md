@@ -422,6 +422,22 @@ Model 3's final evaluated checkpoint is:
 /kaggle/input/datasets/hypivepiu/model-3-bestbest
 ```
 
+Model 2's final checkpoints are available at:
+
+[Pix2Pix Final Models](https://www.kaggle.com/datasets/vnhttin/pix2pix-final-models)
+
+```text
+/kaggle/input/datasets/vnhttin/pix2pix-final-models
+```
+
+Model 1's final checkpoints are available at:
+
+[Lightweight U-Net](https://www.kaggle.com/datasets/pannguyeen/lightweight-u-net)
+
+```text
+/kaggle/input/datasets/pannguyeen/lightweight-u-net
+```
+
 The completed full unpaired holdout results are available at:
 
 [Epoch 12 Full Unpaired Holdout Evaluation](https://www.kaggle.com/datasets/khoaanh1234/vto-v2-epoch12-unpaired-full-eval-20260612)
