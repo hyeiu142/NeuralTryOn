@@ -441,35 +441,15 @@ Large-scale training and diffusion inference require a CUDA GPU. Local CPU
 execution is primarily suitable for documentation, small utility scripts, and
 result inspection.
 
-## Reproducibility
+## Reproducibility and Artifacts
 
-The project applies fixed random seeds for Python, NumPy, and PyTorch.
-Reusable helpers are available in
-[src/reproducibility.py](src/reproducibility.py).
+Experiments use fixed random seeds for Python, NumPy, and PyTorch. Final
+comparisons should use the same CSV manifest, metric implementations, LPIPS
+backbone, and fixed qualitative pairs across all models.
 
-For reproducible experiments:
-
-- Keep the same cleaned CSV manifests.
-- Record the exact checkpoint and epoch.
-- Record model hyperparameters and inference settings.
-- Use the same metric implementation and LPIPS backbone.
-- Preserve per-sample metric CSV files.
-- Report both mean and standard deviation.
-- Keep qualitative comparison pairs fixed across models.
-
-## Checkpoints and External Artifacts
-
-Large model weights are not committed to Git. They should be stored as Kaggle
-Datasets and documented in [docs/checkpoints.md](docs/checkpoints.md).
-
-Current published Model 3 paired result dataset:
-
-```text
-khoaanh1234/vto-sd-lora-epoch12-paired-three-column-gallery
-```
-
-Full-resolution result galleries should also remain external. Only compact,
-report-ready figures should be committed under `results/`.
+Large checkpoints and full-resolution result galleries are stored externally as
+Kaggle Datasets instead of being committed to Git. See
+[docs/checkpoints.md](docs/checkpoints.md) for the available artifacts.
 
 ## Known Limitations
 
@@ -478,36 +458,5 @@ report-ready figures should be committed under `results/`.
 - Model 2 does not yet have a finalized standalone evaluation workflow.
 - Unpaired Virtual Try-On has no pixel-aligned ground truth; qualitative review
   remains necessary.
-- Stable Diffusion inference is slower and more resource intensive than the
-  lightweight CNN pipeline.
-- Fine garment details, logos, hands, boundaries, and occlusions remain
-  difficult failure cases.
-- The final user-facing demo has not yet been integrated.
-
-## Remaining Work
-
-The main remaining tasks are:
-
-1. Complete the standalone Model 2 evaluation workflow.
-2. Rerun all three models using one shared paired-test manifest and LPIPS
-   backbone.
-3. Produce a final three-model quantitative comparison.
-4. Export fixed-pair qualitative comparison galleries.
-5. Complete cross-model error analysis.
-6. Integrate the final Gradio demo.
-7. Add final checkpoint links and the completed project report.
-
-## Documentation
-
-- [Dataset and splits](docs/dataset.md)
-- [Architecture summary](docs/architecture.md)
-- [Evaluation protocol](docs/evaluation_protocol.md)
-- [Checkpoints and external artifacts](docs/checkpoints.md)
-- [Model 1 evaluation](evaluation/model_1_lightweight_unet/README.md)
-- [Model 3 evaluation](evaluation/model_3_sd_lora/README.md)
-- [Current comparison workflow](evaluation/common_comparison/README.md)
-
-## Academic Context
-
-This repository was developed as a final project for the Deep Learning course,
-academic year 2026. It is intended for educational and experimental use.
+- Fine garment details, logos, hands, and occlusions remain difficult failure
+  cases.
