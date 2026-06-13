@@ -24,8 +24,7 @@ warning = (
     "and LPIPS backbones differ.\n\n"
 )
 headers = [
-    "Model", "Paired samples", "SSIM", "PSNR (dB)", "LPIPS",
-    "LPIPS backbone", "Holdout samples",
+    "Model", "Paired samples", "SSIM", "PSNR (dB)", "LPIPS", "Holdout samples",
 ]
 table_rows = [
     [
@@ -34,7 +33,6 @@ table_rows = [
         f'{float(row["ssim_mean"]):.4f}',
         f'{float(row["psnr_mean"]):.2f}',
         f'{float(row["lpips_mean"]):.4f}',
-        row["lpips_backbone"],
         row["unpaired_samples"],
     ]
     for row in completed

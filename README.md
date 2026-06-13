@@ -222,11 +222,11 @@ The architecture and completed experiment summaries are documented in
 
 ## Common 996-Sample Evaluation Results
 
-| Model | Paired Samples | SSIM | PSNR | LPIPS | LPIPS Backbone | Holdout Generated |
-| --- | ---: | ---: | ---: | ---: | --- | ---: |
-| Lightweight U-Net + GMM + TOM | 996 | 0.8932 | 21.39 dB | 0.1455 | VGG | 665 |
-| GMM + Shape Generation + Pix2Pix | 996 | 0.8951 | 21.49 dB | 0.1145 | VGG | 13 manual demos |
-| Stable Diffusion Inpainting + LoRA | 996 | 0.8733 | 21.32 dB | 0.1055 | AlexNet | 665 |
+| Model | Paired Samples | SSIM | PSNR | LPIPS | Holdout Generated |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Lightweight U-Net + GMM + TOM | 996 | 0.8932 | 21.39 dB | 0.1455 | 665 |
+| GMM + Shape Generation + Pix2Pix | 996 | 0.8951 | 21.49 dB | 0.1145 | 13 manual demos |
+| Stable Diffusion Inpainting + LoRA | 996 | 0.8733 | 21.32 dB | 0.1055 | 665 |
 
 The report defines `clean_vto_dataset_test.csv` as the common 996-sample paired
 test set for all models. Model 1 and Model 2 metrics shown above are retained
