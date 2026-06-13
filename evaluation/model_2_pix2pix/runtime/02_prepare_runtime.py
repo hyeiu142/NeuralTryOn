@@ -26,9 +26,12 @@ def _find_checkpoint(filename):
     return matches[0] if matches else None
 
 
-model_gmm = globals().get("model_gmm", GMM(DEVICE, img_size=(HEIGHT, WIDTH)).to(DEVICE))
-model_stage1 = globals().get("model_stage1", Stage1_SegmentationNet().to(DEVICE))
-model_tom = globals().get("model_tom", TOM_Generator_Stage2(in_channels=12).to(DEVICE))
+if "model_gmm" not in globals():
+    model_gmm = GMM(DEVICE, img_size=(HEIGHT, WIDTH)).to(DEVICE)
+if "model_stage1" not in globals():
+    model_stage1 = Stage1_SegmentationNet().to(DEVICE)
+if "model_tom" not in globals():
+    model_tom = TOM_Generator_Stage2(in_channels=12).to(DEVICE)
 
 for model, filename in [
     (model_gmm, "best_gmm.pth"),
