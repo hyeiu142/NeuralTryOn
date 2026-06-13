@@ -1,5 +1,7 @@
 name: stable_diffusion_inpainting_lora
+key: model_3
 family: latent_diffusion
+adapter_status: production_adapter_gpu_smoke_pending
 base_model: runwayml/stable-diffusion-inpainting
 ip_adapter: h94/IP-Adapter
 architecture:
@@ -21,4 +23,3 @@ lora:
     - to_out.0
     - ff.net.0.proj
     - ff.net.2
-

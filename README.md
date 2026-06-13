@@ -278,8 +278,16 @@ VTO/
 │   ├── registry.csv
 │   └── runs/
 ├── scripts/
-│   └── manage_experiment.py
+│   ├── train.py
+│   ├── evaluate.py
+│   ├── infer.py
+│   └── vto.py
 ├── src/
+│   ├── data/
+│   ├── models/
+│   ├── training/
+│   ├── evaluation/
+│   ├── inference/
 │   ├── config.py
 │   ├── metrics.py
 │   ├── reproducibility.py
@@ -470,6 +478,40 @@ Datasets. See [docs/checkpoints.md](docs/checkpoints.md) for available artifacts
 Hierarchical configurations are recorded in [configs/](configs/). The
 run-oriented tracking structure, run registry, and cross-model hyperparameter
 summary are documented in [experiments/](experiments/).
+
+The production-oriented software architecture and remote GPU workflow are
+documented in [docs/production_architecture.md](docs/production_architecture.md)
+and [docs/kaggle_operations.md](docs/kaggle_operations.md).
+
+Configuration validation and unit tests run automatically through
+`.github/workflows/ci.yml`. Common local checks are available through
+`make validate`, `make compile`, and `make test`.
+
+## Production CLI
+
+The installed `vto` command provides configuration validation, environment
+preflight, run initialization, model inspection, and artifact packaging:
+
+```bash
+vto models
+vto validate --config configs/experiments/model_3_default.yaml
+vto preflight --config configs/experiments/model_3_default.yaml
+vto init-run --config configs/experiments/model_3_default.yaml
+vto package-run --run-dir experiments/runs/<run_id>
+```
+
+The script-based train, evaluate, and infer entry points support guarded dry
+runs while the completed model implementations remain preserved in notebooks:
+
+```bash
+python scripts/train.py --config configs/experiments/model_3_default.yaml --dry-run
+python scripts/evaluate.py --config configs/experiments/model_3_default.yaml --dry-run
+python scripts/infer.py --config configs/experiments/model_3_default.yaml --dry-run
+```
+
+Model 3 also provides a real script-based training adapter. Start with the
+small Kaggle GPU smoke test documented in
+[docs/model_3_production_training.md](docs/model_3_production_training.md).
 
 Evaluation protocols and known limitations are documented in
 [docs/evaluation_protocol.md](docs/evaluation_protocol.md).

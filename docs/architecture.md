@@ -3,6 +3,9 @@
 The project compares three Virtual Try-On approaches with different resource
 and modeling trade-offs.
 
+The production-oriented software layers and Kaggle execution model are
+documented in [production_architecture.md](production_architecture.md).
+
 ## Shared Inputs
 
 All models use conditions derived from VITON-HD:

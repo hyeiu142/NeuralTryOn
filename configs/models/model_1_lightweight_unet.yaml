@@ -1,4 +1,5 @@
 name: lightweight_unet_gmm_tom
+key: model_1
 family: convolutional_virtual_try_on
 stages:
   - lightweight_unet
@@ -7,4 +8,3 @@ stages:
 architecture:
   image_size: [512, 384]
   tom_dropout: 0.0
-

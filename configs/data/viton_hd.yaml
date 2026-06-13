@@ -6,7 +6,9 @@ manifests:
   train: data/DLP_CleanDataCSV/clean_vto_dataset_train.csv
   paired_test: data/DLP_CleanDataCSV/clean_vto_dataset_test.csv
   unpaired_holdout: data/DLP_CleanDataCSV/holdout_test.csv
-paired_rule: cloth_id == person_id
+pairing_modes:
+  train: identity
+  paired_test: identity_override
+  unpaired_holdout: manifest
 seed: 42
 num_workers: 2
-

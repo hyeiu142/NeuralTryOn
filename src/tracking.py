@@ -31,7 +31,7 @@ class RunTracker:
         self.config = config
         self.project_root = Path(project_root).resolve()
         self.started_at = datetime.now(timezone.utc)
-        self.run_id = f"{self.started_at:%Y%m%dT%H%M%SZ}_{_slug(config['name'])}"
+        self.run_id = f"{self.started_at:%Y%m%dT%H%M%S%fZ}_{_slug(config['name'])}"
         run_root = self.project_root / config["tracking"]["run_root"]
         self.run_dir = run_root / self.run_id
         self.registry_path = self.project_root / config["tracking"]["registry"]
@@ -125,4 +125,3 @@ def _write_json(path: Path, value: dict[str, Any]) -> None:
 
 def _write_yaml(path: Path, value: dict[str, Any]) -> None:
     path.write_text(yaml.safe_dump(value, sort_keys=False), encoding="utf-8")
-
