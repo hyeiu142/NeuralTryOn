@@ -6,5 +6,6 @@ Quantitative evaluation uses paired reconstruction on
 Qualitative comparison and error analysis use original unpaired pairs from
 `holdout_test.csv`.
 
-The SD + LoRA evaluation runner executes the reusable cells under
-`evaluation_cells/model_3_sd_lora/`.
+The complete SD + LoRA workflow lives under
+`evaluation/model_3_sd_lora/`. Run it through
+`model_3_sd_lora_evaluation.ipynb`.

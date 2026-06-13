@@ -1,3 +1,5 @@
+"""Rank unpaired holdout results and generate metric/error-analysis reports."""
+
 import json
 import shutil
 from pathlib import Path

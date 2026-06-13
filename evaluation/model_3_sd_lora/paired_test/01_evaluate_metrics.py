@@ -1,7 +1,4 @@
-# ================================================================
-# CELL 15: FULL PAIRED TEST EVALUATION - SSIM / PSNR / LPIPS
-# Run after Cell 12, Cell 13, and Cell 14.
-# ================================================================
+"""Run resumable full paired-test evaluation with SSIM, PSNR, and LPIPS."""
 
 import json
 import time

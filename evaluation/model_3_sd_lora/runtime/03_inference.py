@@ -1,6 +1,4 @@
-# ================================================================
-# CELL 14: PREPROCESS + UNPAIRED HOLDOUT INFERENCE FUNCTION
-# ================================================================
+"""Preprocessing helpers and the reusable paired/unpaired inference function."""
 
 import cv2
 import numpy as np

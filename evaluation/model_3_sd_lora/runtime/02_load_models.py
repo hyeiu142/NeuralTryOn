@@ -1,6 +1,4 @@
-# ================================================================
-# CELL 13: LOAD MODELS FOR V2 17CH INFERENCE
-# ================================================================
+"""Rebuild and load every component required for SD + LoRA inference."""
 
 import torch
 import torch.nn as nn

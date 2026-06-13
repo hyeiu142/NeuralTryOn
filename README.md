@@ -22,10 +22,10 @@ VTO/
 │   ├── 02_models/           # Three main training notebooks
 │   ├── 03_evaluation/       # Quantitative and qualitative evaluation
 │   └── 04_demo/             # Demo integration notes
+├── evaluation/              # Complete model-specific evaluation workflows
 ├── src/                     # Shared metrics, visualization, reproducibility
 ├── results/                 # EDA, metrics, convergence, comparisons, failures
 ├── docs/                    # Dataset, architecture, checkpoint documentation
-└── evaluation_cells/        # Reusable SD + LoRA inference/evaluation cells
 ```
 
 `data/` and `checkpoints/` are local-only and intentionally excluded from Git.

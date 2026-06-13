@@ -1,7 +1,4 @@
-# ================================================================
-# CELL 16B: PUBLISH PAIRED TEST 3-COLUMN COMPARISONS TO KAGGLE
-# Run after Cell 16.
-# ================================================================
+"""Publish the paired-test metrics and three-column gallery to Kaggle."""
 
 import json
 import shutil

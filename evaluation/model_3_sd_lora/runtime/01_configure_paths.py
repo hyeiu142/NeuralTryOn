@@ -1,6 +1,4 @@
-# ================================================================
-# CELL 12: CONFIG + PATH SETUP FOR V2 17CH INFERENCE
-# ================================================================
+"""Resolve Kaggle inputs, validate checkpoint metadata, and configure runtime."""
 
 import json
 import shutil

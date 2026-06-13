@@ -1,8 +1,4 @@
-# ================================================================
-# CELL 16: EXPORT 3-COLUMN PAIRED TEST COMPARISONS
-# Person | Target Cloth | Try-On Result
-# Run after Cell 15. No inference is required.
-# ================================================================
+"""Export paired-test Person | Target Cloth | Try-On Result comparisons."""
 
 from pathlib import Path
 
