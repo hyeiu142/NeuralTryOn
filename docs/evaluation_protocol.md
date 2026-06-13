@@ -38,6 +38,7 @@ artifacts, texture loss, color bleeding, and pose consistency.
 | Model | Paired samples | Paired source | LPIPS backbone | Holdout |
 | --- | ---: | --- | --- | ---: |
 | Model 1: Lightweight U-Net + GMM + TOM | 2032 | All files in `VITON-HD/test/image` | VGG | 665 |
+| Model 2: GMM + Shape Generation + Pix2Pix | 2032 | All files in `VITON-HD/test/image` | VGG | 13 manual demos; full holdout pending |
 | Model 3: Stable Diffusion + LoRA | 996 | `clean_vto_dataset_test.csv` | AlexNet | 665 |
 
 The current values document each completed experiment. They must not be used

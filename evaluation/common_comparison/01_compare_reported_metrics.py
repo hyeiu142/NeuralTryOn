@@ -13,7 +13,7 @@ CHART_PATH = METRICS_DIR / "reported_metrics_comparison.png"
 with INPUT_PATH.open(encoding="utf-8", newline="") as file:
     completed = [
         row for row in csv.DictReader(file)
-        if row["status"] == "completed"
+        if row["status"] in {"completed", "paired_completed"}
     ]
 if not completed:
     raise RuntimeError(f"No completed model results found in {INPUT_PATH}")

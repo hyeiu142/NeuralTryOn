@@ -22,8 +22,9 @@ results/metrics/reported_metrics_table.md
 results/metrics/reported_metrics_comparison.png
 ```
 
-The current table contains Models 1 and 3. Model 2 can be added as a new CSV
-row after its evaluation is complete.
+The current table contains reported paired results for all three models. Model
+2 is labeled as paired-complete because its full holdout export is still
+pending.
 
 The generated chart is labeled as a reported-results overview because Models 1
 and 3 currently use different paired manifests and LPIPS backbones.

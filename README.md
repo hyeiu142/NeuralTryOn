@@ -53,7 +53,7 @@ quantitative and qualitative evaluation.
 | Model | Architecture | Main Purpose | Status |
 | --- | --- | --- | --- |
 | Model 1 | Lightweight U-Net + GMM/TPS + TOM | Lightweight custom CNN baseline | Training and evaluation completed |
-| Model 2 | GMM + Shape Generation + Pix2Pix + PatchGAN | Adversarial image synthesis experiment | Training notebook available; final evaluation pending |
+| Model 2 | GMM + Shape Generation + Pix2Pix + PatchGAN | Adversarial image synthesis experiment | Training and paired evaluation completed; full holdout pending |
 | Model 3 | Stable Diffusion Inpainting + LoRA + garment conditioning | Transfer learning and PEFT experiment | Training and evaluation completed |
 
 ### Model 1: Lightweight U-Net + GMM + TOM
@@ -221,9 +221,10 @@ evaluation contract.
 | Model | Paired Samples | SSIM | PSNR | LPIPS | LPIPS Backbone | Holdout Generated |
 | --- | ---: | ---: | ---: | ---: | --- | ---: |
 | Lightweight U-Net + GMM + TOM | 2,032 | 0.8932 | 21.39 dB | 0.1455 | VGG | 665 |
+| GMM + Shape Generation + Pix2Pix | 2,032 | 0.8951 | 21.49 dB | 0.1145 | VGG | 13 manual demos |
 | Stable Diffusion Inpainting + LoRA | 996 | 0.8733 | 21.32 dB | 0.1055 | AlexNet | 665 |
 
-These values document the completed Model 1 and Model 3 experiments, but they
+These values document the currently reported experiments, but they
 must not yet be interpreted as a strict model ranking:
 
 - Model 1 evaluated all 2,032 images found in `VITON-HD/test/image`.
@@ -254,6 +255,10 @@ VTO/
 │   └── 04_demo/
 ├── evaluation/
 │   ├── model_1_lightweight_unet/
+│   │   ├── runtime/
+│   │   ├── paired_test/
+│   │   └── unpaired_holdout/
+│   ├── model_2_pix2pix/
 │   │   ├── runtime/
 │   │   ├── paired_test/
 │   │   └── unpaired_holdout/
@@ -455,7 +460,7 @@ Kaggle Datasets instead of being committed to Git. See
 
 - The current Model 1 and Model 3 paired results use different evaluation
   manifests and LPIPS backbones.
-- Model 2 does not yet have a finalized standalone evaluation workflow.
+- Model 2's full 665-sample holdout export has not yet been executed.
 - Unpaired Virtual Try-On has no pixel-aligned ground truth; qualitative review
   remains necessary.
 - Fine garment details, logos, hands, and occlusions remain difficult failure
