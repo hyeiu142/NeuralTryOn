@@ -2,6 +2,25 @@ name: model_1_default
 data_config: ../data/viton_hd.yaml
 model_config: ../models/model_1_lightweight_unet.yaml
 tracking_config: ../tracking/default.yaml
+data_runtime:
+  train_validation_split:
+    validation_fraction: 0.15
+    random_state: 42
+  augmentation:
+    synchronized_across_modalities: true
+    brightness_contrast:
+      probability: 0.5
+      brightness_range: [0.9, 1.1]
+      contrast_range: [0.9, 1.1]
+    translation:
+      probability: 0.5
+      x_fraction_range: [-0.05, 0.05]
+      y_fraction_range: [-0.05, 0.05]
+  loaders:
+    train: {batch_size: 8, shuffle: true, drop_last: true, num_workers: 2}
+    validation: {batch_size: 8, shuffle: false, drop_last: false, num_workers: 2}
+    tom_ablation: {pin_memory: true, prefetch_factor: 2, persistent_workers: true}
+    evaluation: {batch_size: 4, shuffle: false, num_workers: 2, pin_memory: true}
 training:
   batch_size: 8
   seed: 42
@@ -10,19 +29,45 @@ training:
       epochs: 20
       learning_rate: 0.0001
       optimizer: Adam
+      loss:
+        name: BCEDiceLoss
+        weights: {bce: 0.5, dice: 0.5}
       early_stopping: {patience: 5, min_delta: 0.0001}
+      inference_mask_threshold: 0.5
+      checkpoints:
+        best: unet_BEST_baseline.pth
+        latest: unet_checkpoint_baseline.pth
+        hyperparameters: unet_best_hyperparameters.json
     geometric_matching_module:
       epochs: 15
       learning_rate: 0.00001
       optimizer: Adam
-      early_stopping: {patience: 5, min_delta: 0.0001}
+      loss_weights:
+        train: {shape: 1.0, texture: 0.2, regularization: 0.15}
+        validation: {shape: 1.0, texture: 0.2, regularization: 0.05}
+      mixed_precision: true
+      gradient_clip_max_norm: 1.0
+      early_stopping: {patience: 5, min_delta: 0.00001}
+      checkpoints:
+        best: gmm_ultimate_BEST.pth
+        latest: gmm_checkpoint_resume.pth
+        hyperparameters: gmm_best_hyperparameters.json
     try_on_module:
       epochs: 30
       learning_rate: 0.0001
       optimizer: Adam
       optimizer_betas: [0.5, 0.999]
       scheduler: {name: ReduceLROnPlateau, factor: 0.5, patience: 2}
+      loss_weights: {l1_render: 1.0, l1_final: 1.0, vgg: 0.1, mask: 0.1}
+      mixed_precision: true
+      gradient_clip_max_norm: 1.0
       early_stopping: {patience: 5, min_delta: 0.0001}
+      checkpoints:
+        best_template: tom_BEST_{config_name}.pth
+        latest_template: tom_checkpoint_{config_name}.pth
+        hyperparameters_template: tom_best_hyperparameters_{config_name}.json
+        final: tom_generator_ultimate.pth
+      tensorboard_log_dir_template: runs/TOM_Experiment_{config_name}
 ablation:
   - {name: Baseline_No_Dropout, learning_rate: 0.0001, dropout: 0.0}
   - {name: With_Dropout_0.3, learning_rate: 0.0001, dropout: 0.3}
@@ -30,9 +75,13 @@ ablation:
   - {name: High_LR_5e_4, learning_rate: 0.0005, dropout: 0.0}
 evaluation:
   metrics: [ssim, psnr, lpips]
+  lpips_backbone: vgg
   paired_manifest: clean_vto_dataset_test.csv
   unpaired_manifest: holdout_test.csv
+  mask_thresholds:
+    lightweight_unet: 0.5
+    try_on_module: 0.5
+  holdout_gallery: {samples: 10, seed: 42}
 notes:
   source_notebook: notebooks/02_models/model_1_lightweight_unet.ipynb
   notebook_tracking_backend: TensorBoard
-

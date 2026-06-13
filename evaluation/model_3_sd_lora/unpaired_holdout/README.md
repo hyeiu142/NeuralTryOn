@@ -22,3 +22,7 @@ seconds
 ```
 
 It also saves result, raw model output, and five-panel comparison images.
+
+Completed full holdout artifact:
+
+[Epoch 12 Full Unpaired Holdout Evaluation](https://www.kaggle.com/datasets/khoaanh1234/vto-v2-epoch12-unpaired-full-eval-20260612)

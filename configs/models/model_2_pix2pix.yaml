@@ -7,6 +7,31 @@ stages:
   - pix2pix
 architecture:
   image_size: [512, 384]
-  shape_generation_input_channels: 26
-  generator_input_channels: 12
-  discriminator_input_channels: 15
+  geometric_matching_module:
+    person_input_channels: 24
+    person_input_components:
+      agnostic: 3
+      densepose: 3
+      pose_heatmaps: 18
+    cloth_input_channels: 3
+    feature_base_channels: 64
+    feature_layers: 4
+    tps_grid_size: 5
+    tps_source_range: [-0.9, 0.9]
+  shape_generation:
+    input_channels: 26
+    input_components:
+      agnostic: 3
+      pose_heatmaps: 18
+      cloth_mask: 1
+      densepose: 3
+      hair_mask: 1
+    output_channels: 1
+    encoder_channels: [64, 128, 256, 512]
+    output_activation: sigmoid
+  pix2pix:
+    generator_input_channels: 12
+    discriminator_input_channels: 15
+    generator_bottleneck_residual_blocks: 3
+    discriminator_dropout: 0.3
+    generator_output_activation: tanh

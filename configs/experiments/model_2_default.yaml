@@ -2,6 +2,28 @@ name: model_2_default
 data_config: ../data/viton_hd.yaml
 model_config: ../models/model_2_pix2pix.yaml
 tracking_config: ../tracking/default.yaml
+data_runtime:
+  train_validation_split:
+    validation_fraction: 0.10
+    random_state: 42
+  augmentation:
+    synchronized_across_modalities: true
+    brightness_contrast:
+      probability: 0.5
+      brightness_range: [0.9, 1.1]
+      contrast_range: [0.9, 1.1]
+    translation:
+      probability: 0.5
+      x_fraction_range: [-0.05, 0.05]
+      y_fraction_range: [-0.05, 0.05]
+  preprocessing:
+    wipe_dilation_kernel: 5
+    shape_visualization_threshold: 0.7
+  loaders:
+    train: {batch_size: 4, shuffle: true, drop_last: true, num_workers: 2, pin_memory: true}
+    validation: {batch_size: 4, shuffle: false, drop_last: false, num_workers: 2, pin_memory: true}
+    paired_evaluation: {batch_size: 4, shuffle: false, num_workers: 2}
+    unpaired_visualization: {batch_size: 50, shuffle: false, num_workers: 0}
 training:
   batch_size: 4
   seed: 42
@@ -12,13 +34,23 @@ training:
       optimizer: Adam
       scheduler: {name: ReduceLROnPlateau, factor: 0.5, patience: 3}
       early_stopping: {patience: 3, min_delta: 0.001}
-      loss_weights: {l1: 1.0, vgg: 0.2, mask: 0.5}
+      loss_weights: {l1: 1.0, vgg: 0.2, mask: 0.5, smooth: 0.25, const: 0.05}
+      automatic_weighted_loss_learning_rate: 0.001
+      mixed_precision: true
+      gradient_clip_max_norm: 1.0
+      checkpoints: {best: best_gmm.pth, latest: latest_gmm.pth}
     shape_generation:
       epochs: 15
       learning_rate: 0.00005
       optimizer: Adam
       scheduler: {name: ReduceLROnPlateau, factor: 0.5, patience: 2}
       early_stopping: {patience: 3, min_delta: 0.001}
+      loss_weights: {bce: 1.0, dice: 1.0, forbidden_region: 1.0}
+      automatic_weighted_loss_learning_rate: 0.001
+      detail_weight_clamp: [1.0, 15.0]
+      mixed_precision: true
+      gradient_clip_max_norm: 1.0
+      checkpoints: {best: best_seg_stage1.pth, latest: latest_seg_stage1.pth}
     pix2pix:
       epochs: 30
       generator_learning_rate: 0.0002
@@ -27,6 +59,13 @@ training:
       optimizer_betas: [0.5, 0.999]
       scheduler: {name: ReduceLROnPlateau, factor: 0.5, patience: 4}
       early_stopping: {patience: 10, min_delta: 0.001}
+      adversarial_loss: least_squares_gan
+      gan_warmup_epochs: 5
+      instance_noise_std: 0.1
+      real_label_smoothing: 0.9
+      discriminator_update_loss_threshold: 0.15
+      mixed_precision: true
+      gradient_clip_max_norm: {generator: 1.0, discriminator: 1.0}
       loss_weights:
         l1: 0.5
         vgg: 10.0
@@ -35,11 +74,23 @@ training:
         skin: 5.0
         full_region: 10.0
         mask: 20.0
+      checkpoints:
+        best: best_tom_stage2.pth
+        latest_full_state: latest_tom_full_state.pth
+        resume_state:
+          - generator
+          - discriminator
+          - optimizers
+          - gradient_scalers
+          - schedulers
+          - histories
+          - early_stopping
+          - random_number_generator_states
 evaluation:
   metrics: [ssim, psnr, lpips]
+  lpips_backbone: vgg
   paired_manifest: clean_vto_dataset_test.csv
   unpaired_manifest: holdout_test.csv
 notes:
   source_notebook: notebooks/02_models/model_2_pix2pix.ipynb
   notebook_tracking_backend: notebook_history_and_checkpoints
-

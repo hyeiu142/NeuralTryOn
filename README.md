@@ -417,9 +417,15 @@ Required model checkpoint dataset
 
 Model 3's final evaluated checkpoint is:
 
+[Model 3 Best Checkpoint](https://www.kaggle.com/datasets/hypivepiu/model-3-bestbest?select=checkpoint_latest)
+
 ```text
-/kaggle/input/datasets/khoaanh1234/ckpt-epoch-12-yen
+/kaggle/input/datasets/hypivepiu/model-3-bestbest
 ```
+
+The completed full unpaired holdout results are available at:
+
+[Epoch 12 Full Unpaired Holdout Evaluation](https://www.kaggle.com/datasets/khoaanh1234/vto-v2-epoch12-unpaired-full-eval-20260612)
 
 Expected Model 3 checkpoint structure:
 

@@ -18,3 +18,8 @@ The existing notebooks remain self-contained and are not modified to consume
 these files. The configurations currently document their completed experiments
 and provide the standard interface for future scripts.
 
+The configurations cover all three models, including their stage-specific
+architectures, data loaders, augmentation, optimization, losses, checkpoint
+contracts, and evaluation settings. See
+[`docs/configuration_reference.md`](../docs/configuration_reference.md) for the
+field-level organization and notebook mapping.

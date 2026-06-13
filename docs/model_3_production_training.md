@@ -65,7 +65,7 @@ Attach the checkpoint Kaggle Dataset and run:
 ```bash
 python scripts/train.py \
   --config configs/experiments/model_3_default.yaml \
-  --resume-dir /kaggle/input/datasets/khoaanh1234/ckpt-epoch-12-yen \
+  --resume-dir /kaggle/input/datasets/hypivepiu/model-3-bestbest \
   --output-dir /kaggle/working/vto_v2_production \
   --wandb
 ```
@@ -92,7 +92,7 @@ to Git.
 ```bash
 python scripts/infer.py \
   --config configs/experiments/model_3_default.yaml \
-  --checkpoint /kaggle/input/datasets/khoaanh1234/ckpt-epoch-12-yen \
+  --checkpoint /kaggle/input/datasets/hypivepiu/model-3-bestbest \
   --person-id 14144_00 \
   --cloth-id 05242_00 \
   --output /kaggle/working/model_3_smoke_result.jpg
@@ -103,7 +103,7 @@ python scripts/infer.py \
 ```bash
 python scripts/evaluate.py \
   --config configs/experiments/model_3_default.yaml \
-  --checkpoint /kaggle/input/datasets/khoaanh1234/ckpt-epoch-12-yen \
+  --checkpoint /kaggle/input/datasets/hypivepiu/model-3-bestbest \
   --max-samples 3 \
   --output-dir /kaggle/working/model_3_paired_smoke
 ```

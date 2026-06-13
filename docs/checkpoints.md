@@ -5,11 +5,11 @@ Datasets before running inference.
 
 ## Model 3: SD + LoRA
 
-Final evaluated checkpoint:
+Best checkpoint:
 
-```text
-/kaggle/input/datasets/khoaanh1234/ckpt-epoch-12-yen
-```
+- Kaggle Dataset: [Model 3 Best Checkpoint](https://www.kaggle.com/datasets/hypivepiu/model-3-bestbest?select=checkpoint_latest)
+- Kaggle input path: `/kaggle/input/datasets/hypivepiu/model-3-bestbest`
+- Selected directory: `checkpoint_latest`
 
 Expected checkpoint contents:
 
@@ -23,9 +23,12 @@ checkpoint_latest/
 
 Paired test result dataset:
 
-```text
-khoaanh1234/vto-sd-lora-epoch12-paired-three-column-gallery
-```
+- Kaggle Dataset: [Epoch 12 Paired Three-Column Gallery](https://www.kaggle.com/datasets/khoaanh1234/vto-sd-lora-epoch12-paired-three-column-gallery)
+
+Full unpaired holdout result dataset:
+
+- Kaggle Dataset: [Epoch 12 Full Unpaired Holdout Evaluation](https://www.kaggle.com/datasets/khoaanh1234/vto-v2-epoch12-unpaired-full-eval-20260612)
+- Kaggle input path: `/kaggle/input/datasets/khoaanh1234/vto-v2-epoch12-unpaired-full-eval-20260612`
 
 ## Model 2: Pix2Pix
 

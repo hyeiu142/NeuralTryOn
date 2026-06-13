@@ -2,6 +2,26 @@ name: model_3_default
 data_config: ../data/viton_hd.yaml
 model_config: ../models/model_3_sd_lora.yaml
 tracking_config: ../tracking/default.yaml
+data_runtime:
+  training_manifest: clean_vto_dataset_train.csv
+  validation_manifest: clean_vto_dataset_test.csv
+  validation_pairing: identity_override
+  augmentation:
+    horizontal_flip_probability: 0.5
+  loaders:
+    train:
+      batch_size: 1
+      shuffle: true
+      drop_last: true
+      num_workers: 2
+      pin_memory: true
+      persistent_workers: true
+    validation:
+      batch_size: 1
+      shuffle: false
+      drop_last: false
+      num_workers: 2
+      pin_memory: true
 training:
   batch_size: 1
   gradient_accumulation_steps: 8
@@ -10,16 +30,38 @@ training:
   completed_checkpoint_epoch: 12
   seed: 42
   optimizer: AdamW
+  optimizer_betas: [0.9, 0.999]
+  optimizer_epsilon: 0.00000001
   learning_rate: 0.00002
   conv_in_learning_rate: 0.0001
+  parameter_groups:
+    unet_lora: 0.00002
+    expanded_conv_in: 0.0001
+    perceiver: 0.00002
+    cloth_spatial: 0.00002
   weight_decay: 0.0001
   scheduler: {name: cosine_with_warmup, warmup_steps: 200}
   mixed_precision: fp16
+  allow_tf32: true
+  gradient_clip_max_norm: 1.0
   early_stopping: {patience: 5}
   ema_decay: 0.999
   min_snr_gamma: 5.0
   loss_weights: {mask: 6.0, x0_latent: 0.4, x0_mask: 6.0}
   condition_dropout: {text: 0.05, cloth: 0.05}
+  checkpoints:
+    latest_directory: checkpoint_latest
+    best_directory: checkpoint_best
+    loss_history: loss_history.json
+    zip_every_epoch: true
+    required_components:
+      - unet_lora
+      - conv_in.pt
+      - perceiver.pt
+      - cloth_spatial.pt
+      - ema
+      - optimizer
+      - scheduler
 inference:
   steps: 45
   guidance_scale: 2.0
@@ -27,11 +69,18 @@ inference:
   vae_scale: 0.18215
 evaluation:
   metrics: [ssim, psnr, lpips]
+  lpips_backbone: alex
+  notebook_sample_count: 20
   paired_manifest: clean_vto_dataset_test.csv
   unpaired_manifest: holdout_test.csv
+tracking:
+  backend: wandb
+  enabled_in_notebook: true
+  project: VTO-Model4-SD-LoRA
+  run_name: v2-perceiver-13ch
+  log_every_steps: 100
 notes:
   source_notebook: notebooks/02_models/model_3_sd_lora.ipynb
   notebook_tracking_backend: Weights_and_Biases
   wandb_project: VTO-Model4-SD-LoRA
   wandb_run_name: v2-perceiver-13ch
-

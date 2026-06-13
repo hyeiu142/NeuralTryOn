@@ -7,4 +7,36 @@ stages:
   - try_on_module
 architecture:
   image_size: [512, 384]
-  tom_dropout: 0.0
+  lightweight_unet:
+    input_channels: 27
+    input_components:
+      agnostic: 3
+      pose_heatmaps: 18
+      cloth: 3
+      densepose: 3
+    output_channels: 1
+    encoder_channels: [32, 64, 128, 256]
+    bottleneck_channels: 512
+    output_activation: sigmoid
+  geometric_matching_module:
+    cloth_input_channels: 3
+    person_input_channels: 21
+    person_input_components:
+      agnostic: 3
+      pose_heatmaps: 18
+    feature_dimension: 256
+    tps_grid_size: 5
+    tps_control_points: 25
+    output_size: [512, 384]
+  try_on_module:
+    input_channels: 25
+    input_components:
+      agnostic: 3
+      pose_heatmaps: 18
+      warped_cloth: 3
+      predicted_mask: 1
+    output_channels: 4
+    output_components:
+      rendered_rgb: 3
+      composition_mask: 1
+    dropout: 0.0

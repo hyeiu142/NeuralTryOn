@@ -8,7 +8,7 @@ successful Kaggle evaluation cells while preserving their behavior.
 
 ```text
 Base model       runwayml/stable-diffusion-inpainting
-Checkpoint       /kaggle/input/datasets/khoaanh1234/ckpt-epoch-12-yen
+Checkpoint       /kaggle/input/datasets/hypivepiu/model-3-bestbest
 Resolution       384 x 512
 Inference steps  45 DDIM steps
 CFG scale        1.3
@@ -138,6 +138,10 @@ It also saves five-panel comparisons:
 Person | Target Cloth | Mask | Raw Model | Final Result
 ```
 
+The completed full holdout results are published at:
+
+[Epoch 12 Full Unpaired Holdout Evaluation](https://www.kaggle.com/datasets/khoaanh1234/vto-v2-epoch12-unpaired-full-eval-20260612)
+
 ## Review and Publishing
 
 Publishing stages package full result sets as private Kaggle Datasets. Review
@@ -146,6 +150,10 @@ shortlist, and export report-ready three-column galleries.
 
 Publishing is optional. Always verify the Kaggle Dataset link before stopping a
 session because files under `/kaggle/working` disappear when the session ends.
+
+The final best checkpoint is published at:
+
+[Model 3 Best Checkpoint](https://www.kaggle.com/datasets/hypivepiu/model-3-bestbest?select=checkpoint_latest)
 
 ## Excluded Legacy Cells
 

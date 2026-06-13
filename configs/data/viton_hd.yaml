@@ -1,6 +1,7 @@
 name: viton_hd_clean
 dataset: VITON-HD
 image_size: [512, 384]
+source_image_size: [1024, 768]
 root: data/VITON-HD
 manifests:
   train: data/DLP_CleanDataCSV/clean_vto_dataset_train.csv
@@ -10,5 +11,26 @@ pairing_modes:
   train: identity
   paired_test: identity_override
   unpaired_holdout: manifest
+modalities:
+  person: image
+  cloth: cloth
+  cloth_mask: cloth-mask
+  agnostic: agnostic-v3.2
+  densepose: image-densepose
+  parse: image-parse-v3
+  pose_image: openpose_img
+  pose_keypoints: openpose_json
+normalization:
+  rgb_mean: [0.5, 0.5, 0.5]
+  rgb_std: [0.5, 0.5, 0.5]
+  output_range: [-1.0, 1.0]
+pose:
+  heatmap_channels: 18
+  confidence_threshold: 0.05
+  radius: 4
+parse_labels:
+  target_garment: [5, 7]
+  skin_and_detail: [10, 14, 15]
+  intact_regions: [0, 1, 2, 4, 6, 8, 9, 12, 13, 16, 17, 18, 19]
 seed: 42
 num_workers: 2

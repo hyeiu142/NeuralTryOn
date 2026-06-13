@@ -6,12 +6,37 @@ base_model: runwayml/stable-diffusion-inpainting
 ip_adapter: h94/IP-Adapter
 architecture:
   image_size: [512, 384]
-  unet_input_channels: 17
   trigger_word: hyeiu_cloth
+  latent_channels: 4
+  original_unet_input_channels: 9
+  expanded_unet_input_channels: 17
+  unet_input_channels: 17
+  conv_in_initialization:
+    original_channels: copy_pretrained
+    added_channels: zeros
   image_tokens: 8
   spatial_tokens: 64
   perceiver_depth: 2
   perceiver_heads: 8
+  perceiver:
+    clip_hidden_size: 1024
+    cross_attention_dimension: 768
+  cloth_spatial:
+    input_channels: 4
+    output_dimension: 768
+    adaptive_grid: [8, 8]
+  frozen_modules:
+    - vae
+    - text_encoder
+    - clip_vision_encoder
+    - base_unet_weights
+  trainable_modules:
+    - unet_lora
+    - expanded_conv_in
+    - perceiver
+    - cloth_spatial
+  gradient_checkpointing: true
+  xformers_memory_efficient_attention: optional
 lora:
   rank: 16
   alpha: 16
