@@ -457,13 +457,3 @@ Large checkpoints and full-resolution result galleries are stored externally as
 Kaggle Datasets instead of being committed to Git. See
 [docs/checkpoints.md](docs/checkpoints.md) for the available artifacts.
 
-## Known Limitations
-
-- Model 1 and Model 2 metrics still require confirmation on the common
-  996-sample paired manifest.
-- The reported LPIPS results use different backbones.
-- Model 2's full 665-sample holdout export has not yet been executed.
-- Unpaired Virtual Try-On has no pixel-aligned ground truth; qualitative review
-  remains necessary.
-- Fine garment details, logos, hands, and occlusions remain difficult failure
-  cases.
