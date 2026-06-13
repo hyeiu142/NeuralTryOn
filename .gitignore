@@ -17,9 +17,14 @@ checkpoints/
 *.ckpt
 
 draft/
+archive/
 
 .DS_Store
 Thumbs.db
 
 wandb/
 *.log
+
+.ipynb_checkpoints/
+outputs/
+kaggle/working/
