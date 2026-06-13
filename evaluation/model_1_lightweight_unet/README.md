@@ -67,13 +67,14 @@ files.
 The updated notebook reports:
 
 ```text
-Paired test samples   2032
+Common paired set     996 samples
 SSIM                  0.8932
 PSNR                  21.39 dB
 LPIPS-VGG             0.1455
 Unpaired holdout      665/665 generated
 ```
 
-The paired evaluator scans all images in `VITON-HD/test/image`, matching the
-protocol that produced these reported values. The unpaired workflow preserves
-the notebook's shifted-cloth pairing logic.
+The displayed metrics come from the completed legacy notebook run. For the
+final report, confirm them using the common 996-sample
+`clean_vto_dataset_test.csv` manifest. The unpaired workflow preserves the
+notebook's shifted-cloth pairing logic.

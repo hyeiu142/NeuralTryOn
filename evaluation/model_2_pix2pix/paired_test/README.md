@@ -1,11 +1,11 @@
 # Model 2 Paired Test
 
-This workflow preserves the completed notebook evaluation protocol:
+The final report uses the common paired-test protocol:
 
 ```text
-Source    every image in VITON-HD/test/image
+Source    clean_vto_dataset_test.csv
 Pairing   cloth_id = person_id
-Samples   2032
+Samples   996
 Metrics   SSIM, PSNR, LPIPS-VGG
 ```
 
@@ -18,7 +18,8 @@ Run:
 04_publish_kaggle_dataset.py   optional
 ```
 
-The completed notebook reported:
+The completed legacy notebook reported the following values, which require
+confirmation on the common 996-sample manifest:
 
 ```text
 SSIM    0.8951

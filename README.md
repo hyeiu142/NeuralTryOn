@@ -220,23 +220,19 @@ The architecture and completed experiment summaries are documented in
 [docs/architecture.md](docs/architecture.md) and
 [docs/experiments.md](docs/experiments.md).
 
-## Current Reported Results
+## Common 996-Sample Evaluation Results
 
 | Model | Paired Samples | SSIM | PSNR | LPIPS | LPIPS Backbone | Holdout Generated |
 | --- | ---: | ---: | ---: | ---: | --- | ---: |
-| Lightweight U-Net + GMM + TOM | 2,032 | 0.8932 | 21.39 dB | 0.1455 | VGG | 665 |
-| GMM + Shape Generation + Pix2Pix | 2,032 | 0.8951 | 21.49 dB | 0.1145 | VGG | 13 manual demos |
+| Lightweight U-Net + GMM + TOM | 996 | 0.8932 | 21.39 dB | 0.1455 | VGG | 665 |
+| GMM + Shape Generation + Pix2Pix | 996 | 0.8951 | 21.49 dB | 0.1145 | VGG | 13 manual demos |
 | Stable Diffusion Inpainting + LoRA | 996 | 0.8733 | 21.32 dB | 0.1055 | AlexNet | 665 |
 
-These values document the currently reported experiments, but they
-must not yet be interpreted as a strict model ranking:
-
-- Model 1 evaluated all 2,032 images found in `VITON-HD/test/image`.
-- Model 3 evaluated the 996 samples in `clean_vto_dataset_test.csv`.
-- Model 1 used LPIPS-VGG, while Model 3 used LPIPS-AlexNet.
-
-The final three-model comparison should rerun all models using the same clean
-paired manifest and the same LPIPS backbone.
+The report defines `clean_vto_dataset_test.csv` as the common 996-sample paired
+test set for all models. Model 1 and Model 2 metrics shown above are retained
+from their completed legacy runs and should be confirmed on this common
+manifest before interpreting small metric differences as a strict ranking.
+LPIPS backbone differences are reported explicitly.
 
 The machine-readable current results are stored in
 [results/metrics/reported_metrics.csv](results/metrics/reported_metrics.csv).
@@ -463,8 +459,9 @@ Kaggle Datasets instead of being committed to Git. See
 
 ## Known Limitations
 
-- The current Model 1 and Model 3 paired results use different evaluation
-  manifests and LPIPS backbones.
+- Model 1 and Model 2 metrics still require confirmation on the common
+  996-sample paired manifest.
+- The reported LPIPS results use different backbones.
 - Model 2's full 665-sample holdout export has not yet been executed.
 - Unpaired Virtual Try-On has no pixel-aligned ground truth; qualitative review
   remains necessary.

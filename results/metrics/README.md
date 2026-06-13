@@ -4,14 +4,14 @@
 models. Model 2 has completed paired evaluation, while its full holdout export
 is still pending.
 
-These numbers are suitable for documenting project progress, but they are not
-yet a fair ablation comparison:
+The final report defines one shared paired-test protocol:
 
 ```text
-Model 1  2032 raw VITON-HD test images, LPIPS-VGG
-Model 2  2032 raw VITON-HD test images, LPIPS-VGG
-Model 3   996 cleaned paired-test images, LPIPS-AlexNet
+Model 1  996 cleaned paired-test images, LPIPS-VGG
+Model 2  996 cleaned paired-test images, LPIPS-VGG
+Model 3  996 cleaned paired-test images, LPIPS-AlexNet
 ```
 
-For the final three-model ranking, rerun every model using one shared manifest
-and one shared LPIPS backbone.
+Model 1 and Model 2 values are retained from completed legacy runs and require
+confirmation on the shared 996-sample manifest. A strict LPIPS ranking also
+requires one shared LPIPS backbone.

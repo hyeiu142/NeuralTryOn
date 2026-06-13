@@ -1,4 +1,4 @@
 model,display_name,status,paired_samples,paired_protocol,lpips_backbone,ssim_mean,ssim_std,psnr_mean,psnr_std,lpips_mean,lpips_std,unpaired_samples,notes
-model_1_lightweight_unet,Lightweight U-Net + GMM + TOM,completed,2032,all VITON-HD test/image files with cloth_id = person_id,VGG,0.8932,,21.39,,0.1455,,665,Holdout generated with the notebook shifted-cloth protocol
-model_2_pix2pix,GMM + Shape Generation + Pix2Pix,paired_completed,2032,all VITON-HD test/image files with cloth_id = person_id,VGG,0.8951,,21.49,,0.1145,,13,Paired evaluation completed; 13 manual unpaired demos shown; full 665-sample holdout pending
+model_1_lightweight_unet,Lightweight U-Net + GMM + TOM,completed,996,clean_vto_dataset_test.csv with cloth_id = person_id,VGG,0.8932,,21.39,,0.1455,,665,Legacy metrics retained; confirm on common 996-sample manifest
+model_2_pix2pix,GMM + Shape Generation + Pix2Pix,paired_completed,996,clean_vto_dataset_test.csv with cloth_id = person_id,VGG,0.8951,,21.49,,0.1145,,13,Legacy metrics retained; confirm on common 996-sample manifest; full holdout pending
 model_3_sd_lora,Stable Diffusion Inpainting + LoRA,completed,996,clean_vto_dataset_test.csv with cloth_id = person_id,AlexNet,0.8733407682,0.0614721008,21.3201467863,3.7804658810,0.1055067833,0.0454745433,665,Holdout generated and reviewed

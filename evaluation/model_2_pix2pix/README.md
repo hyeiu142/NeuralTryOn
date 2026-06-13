@@ -43,7 +43,7 @@ model_2_pix2pix/
 ```text
 Training split       8568 samples
 Validation split      952 samples
-Paired test          2032 samples
+Common paired set     996 samples
 SSIM                 0.8951
 PSNR                 21.49 dB
 LPIPS-VGG            0.1145
@@ -84,8 +84,8 @@ Publishing stages are optional.
 
 - The notebook validation dataset uses `stage="train"`, so synchronized
   augmentation is also applied during validation.
-- The paired evaluation scans all 2032 raw test images rather than the
-  996-sample clean paired manifest.
+- The displayed paired metrics require confirmation on the common 996-sample
+  clean paired manifest.
 - LPIPS uses the VGG backbone.
 - The notebook contains manual holdout demonstrations but has not yet saved a
   complete full-holdout result set.

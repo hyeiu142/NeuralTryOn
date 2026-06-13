@@ -19,9 +19,9 @@ if not completed:
     raise RuntimeError(f"No completed model results found in {INPUT_PATH}")
 
 warning = (
-    "> Note: this is a reported-results overview, not a strict ranking. "
-    "The completed models currently use different paired manifests and "
-    "LPIPS backbones.\n\n"
+    "> Note: the report defines one common 996-sample paired protocol. "
+    "Model 1 and Model 2 values require confirmation on the common manifest, "
+    "and LPIPS backbones differ.\n\n"
 )
 headers = [
     "Model", "Paired samples", "SSIM", "PSNR (dB)", "LPIPS",
@@ -73,7 +73,7 @@ try:
                 fontsize=9,
             )
     fig.suptitle(
-        "Reported Results Overview: protocols differ, not a strict ranking",
+        "Common 996-Sample Evaluation Overview",
         fontweight="bold",
     )
     fig.tight_layout()

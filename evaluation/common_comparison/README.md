@@ -26,5 +26,6 @@ The current table contains reported paired results for all three models. Model
 2 is labeled as paired-complete because its full holdout export is still
 pending.
 
-The generated chart is labeled as a reported-results overview because Models 1
-and 3 currently use different paired manifests and LPIPS backbones.
+The report uses a shared 996-sample paired-test protocol. The generated chart
+is labeled as a reported-results overview because Model 1 and Model 2 values
+still require confirmation on the common manifest and LPIPS backbones differ.

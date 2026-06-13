@@ -1,13 +1,16 @@
 # Model 1 Paired Test
 
-This workflow preserves the completed Model 1 notebook protocol:
+The final report uses the common paired-test protocol:
 
 ```text
-Source    VITON-HD/test/image
+Source    clean_vto_dataset_test.csv
 Pairing   cloth_id = person_id
-Samples   every image file found in test/image
+Samples   996
 Metrics   SSIM, PSNR, LPIPS-VGG
 ```
+
+The current evaluator still preserves the completed legacy notebook behavior
+and must be adjusted or filtered to this manifest before the confirmation run.
 
 Run stages:
 

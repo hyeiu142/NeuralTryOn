@@ -8,17 +8,18 @@
 | Model 2: GMM + Shape Generation + Pix2Pix | Completed through Stage 2 epoch 30 | Paired completed; full holdout pending |
 | Model 3: Stable Diffusion Inpainting + LoRA | Completed through epoch 12 | Paired and holdout completed |
 
-## Reported Paired Results
+## Common 996-Sample Paired Results
 
 | Model | Samples | SSIM | PSNR | LPIPS | Backbone |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Model 1 | 2032 | 0.8932 | 21.39 dB | 0.1455 | VGG |
-| Model 2 | 2032 | 0.8951 | 21.49 dB | 0.1145 | VGG |
+| Model 1 | 996 | 0.8932 | 21.39 dB | 0.1455 | VGG |
+| Model 2 | 996 | 0.8951 | 21.49 dB | 0.1145 | VGG |
 | Model 3 | 996 | 0.8733 +/- 0.0615 | 21.32 +/- 3.78 dB | 0.1055 +/- 0.0455 | AlexNet |
 
-These results document completed runs but are not a strict ranking because
-Model 3 uses the cleaned 996-sample paired manifest and LPIPS-AlexNet, while
-Models 1 and 2 scan all 2032 test images and use LPIPS-VGG.
+The report uses `clean_vto_dataset_test.csv` as the common 996-sample
+evaluation set. Model 1 and Model 2 values are retained from their completed
+legacy runs and require confirmation on the common manifest. LPIPS backbone
+differences must also be considered when interpreting the results.
 
 ## Training Observations
 
